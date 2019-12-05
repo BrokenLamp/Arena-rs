@@ -34,26 +34,26 @@ impl<'a> Arena {
 #[test]
 fn single_allocation() {
     let mut arena = Arena::new(1024);
-    let value = arena.alloc::<i32>(7).unwrap();
+    let value = arena.alloc(7).unwrap();
     assert_eq!(*value, 7);
 }
 
 #[test]
 fn out_of_space() {
     let mut arena = Arena::new(4);
-    arena.alloc::<i32>(7).unwrap();
-    let value = arena.alloc::<i32>(7);
+    arena.alloc(7).unwrap();
+    let value = arena.alloc(7);
     assert_eq!(value, None);
 }
 
 #[test]
 fn multiple_allocations() {
     let mut arena = Arena::new(1024);
-    let value_78 = arena.alloc::<i32>(78).unwrap();
-    let value_42 = arena.alloc::<i32>(42).unwrap();
+    let value_78 = arena.alloc(78).unwrap();
+    let value_42 = arena.alloc(42).unwrap();
 
     {
-        let value_17  = arena.alloc::<i32>(17).unwrap();
+        let value_17  = arena.alloc(17).unwrap();
         assert_eq!(*value_17, 17);
     }
     // value_17 is out of scope, and so cannot be used
