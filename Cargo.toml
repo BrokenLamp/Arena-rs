@@ -1,5 +1,5 @@
 [package]
-name = "arena"
+name = "arena-rs"
 version = "0.1.0"
 description = "An arena memory pool for fast heap allocations and dealocations"
 authors = ["Brandon Dyer <brandondyer64@gmail.com>"]
