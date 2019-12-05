@@ -1,6 +1,7 @@
 [package]
 name = "arena"
 version = "0.1.0"
+description = "An arena memory pool for fast heap allocations and dealocations"
 authors = ["Brandon Dyer <brandondyer64@gmail.com>"]
 homepage = "https://github.com/BrokenLamp/Arena-rs"
 repository = "https://github.com/BrokenLamp/Arena-rs"
