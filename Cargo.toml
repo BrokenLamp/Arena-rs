@@ -5,6 +5,7 @@ description = "An arena memory pool for fast heap allocations and dealocations"
 authors = ["Brandon Dyer <brandondyer64@gmail.com>"]
 homepage = "https://github.com/BrokenLamp/Arena-rs"
 repository = "https://github.com/BrokenLamp/Arena-rs"
+readme = "README.md"
 license = "MIT"
 edition = "2018"
 
