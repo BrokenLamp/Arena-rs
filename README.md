@@ -1,5 +1,7 @@
 # Arena-rs
 
+[![Crates.io](http://img.shields.io/crates/v/arena-rs.svg?label=arena-rs)](https://crates.io/crates/arena-rs)
+
 An arena memory pool for fast Rust heap allocations and dealocations.
 
 This allows data to be allocated instantly and destroyed in batches.
