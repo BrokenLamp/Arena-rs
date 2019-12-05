@@ -31,6 +31,26 @@ impl<'a> Arena {
     }
 }
 
+pub struct Pool<T> {
+    container: Vec<T>,
+    head: usize,
+    used: usize,
+}
+
+impl<'a, T> Pool {
+    pub fn new<T>(size: usize) -> Pool<T> {
+        let container = Vec::with_capacity(size);
+    }
+    pub fn alloc(value: T) -> PBox<'a, T> {
+
+    }
+}
+
+pub struct PBox<'a, T> {
+    ptr: *mut T,
+    pool: &'a Pool<T>,
+}
+
 #[test]
 fn single_allocation() {
     let mut arena = Arena::new(1024);
