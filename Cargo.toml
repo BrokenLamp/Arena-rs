@@ -2,6 +2,9 @@
 name = "arena"
 version = "0.1.0"
 authors = ["Brandon Dyer <brandondyer64@gmail.com>"]
+homepage = "https://github.com/BrokenLamp/Arena-rs"
+repository = "https://github.com/BrokenLamp/Arena-rs"
+license = "MIT"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
