@@ -9,6 +9,8 @@ This allows data to be allocated instantly and destroyed in batches.
 ## Creating an Arena
 
 ```rust
+use arena_rs::Arena;
+
 let mut arena = Arena::new(1024 /* size in bytes*/);
 ```
 
