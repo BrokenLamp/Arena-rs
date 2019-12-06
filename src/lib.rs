@@ -1,4 +1,3 @@
-
 pub struct Arena {
     container: Vec<u8>,
     capacity: usize,
@@ -37,18 +36,54 @@ pub struct Pool<T> {
     used: usize,
 }
 
-impl<'a, T> Pool {
-    pub fn new<T>(size: usize) -> Pool<T> {
-        let container = Vec::with_capacity(size);
+impl<'a, T> Pool<T> {
+    pub fn new(size: usize) -> Option<Self> {
+        if size < 2 {
+            return None;
+        }
+        if std::mem::size_of::<T>() < std::mem::size_of::<usize>() {
+            return None;
+        }
+        let mut container = Vec::with_capacity(size);
+        let pool = Pool {
+            container: container,
+            head: 0,
+            used: 0,
+        };
+        pool.create_link(0, 1);
+        Some(pool)
     }
-    pub fn alloc(value: T) -> PBox<'a, T> {
+    pub fn alloc(&mut self, value: T) -> PBox<'a, T> {}
 
+    pub(crate) fn dealloc(&mut self, ptr: *mut T) {}
+
+    fn create_link(&mut self, head: usize, to: usize) {
+        let c_ptr = &mut self.container as *mut Vec<T>;
+        let c_ptr = c_ptr.cast::<usize>().offset(head as isize);
+        unsafe {
+            *c_ptr = to;
+        }
     }
 }
 
 pub struct PBox<'a, T> {
     ptr: *mut T,
     pool: &'a Pool<T>,
+}
+
+impl<'a, T> PBox<'a, T> {
+    pub(crate) fn new(ptr: *mut T, pool: &'a Pool<T>) -> Self {
+        PBox {
+            ptr: ptr,
+            pool: pool,
+        }
+    }
+}
+
+impl<'a, T> Drop for PBox<'a, T> {
+    fn drop(&mut self) {
+        self.pool.dealloc(self.ptr);
+    }
 }
 
 #[test]
@@ -73,7 +108,7 @@ fn multiple_allocations() {
     let value_42 = arena.alloc(42).unwrap();
 
     {
-        let value_17  = arena.alloc(17).unwrap();
+        let value_17 = arena.alloc(17).unwrap();
         assert_eq!(*value_17, 17);
     }
     // value_17 is out of scope, and so cannot be used
