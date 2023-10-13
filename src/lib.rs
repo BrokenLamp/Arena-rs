@@ -1,19 +1,22 @@
+use std::cell::RefCell;
 
 pub struct Arena {
-    container: Vec<u8>,
+    container: RefCell<Vec<u8>>,
     capacity: usize,
     offset: usize,
 }
 
-impl<'a> Arena {
+impl Arena {
     pub fn new(size: usize) -> Self {
         Arena {
-            container: Vec::with_capacity(size),
+            container: RefCell::new(Vec::with_capacity(size)),
             capacity: size,
             offset: 0,
         }
     }
-    pub fn alloc<T>(&mut self, value: T) -> Option<&'a mut T> {
+
+    #[inline]
+    pub fn alloc<T>(&mut self, value: T) -> Option<&mut T> {
         let size = std::mem::size_of::<T>();
         if self.offset + size > self.capacity {
             return None;
@@ -53,7 +56,7 @@ fn multiple_allocations() {
     let value_42 = arena.alloc(42).unwrap();
 
     {
-        let value_17  = arena.alloc(17).unwrap();
+        let value_17 = arena.alloc(17).unwrap();
         assert_eq!(*value_17, 17);
     }
     // value_17 is out of scope, and so cannot be used
